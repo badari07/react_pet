@@ -3,18 +3,18 @@ import { Link } from "@reach/router";
 
 class Pet extends React.Component {
   render() {
-    const { name, animal, breed, photos, loaction, id } = this.props;
+    const { name, animal, breed, media, loaction, id } = this.props;
     // console.log(photos[0].small);
-    let photo;
-    if (photos.length <= 0) {
-      photo = "image is not found";
+    let photos;
+    if (media.length <= 0) {
+      photos = "image is not found";
     } else {
-      photo = photos[0].small;
+      photos = media[0].small;
     }
     return (
       <Link to={`/details/${id}`} className="pet">
         <div className="image-container">
-          <img src={photo} alt={name} />
+          <img src={photos} alt={name} />
         </div>
         <div className="info">
           <h1>{name}</h1>

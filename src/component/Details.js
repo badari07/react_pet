@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Client } from "@petfinder/petfinder-js";
 import { navigate } from "@reach/router";
+import Carousel from "./Carousel.js";
 
 const client = new Client({
   apiKey: process.env.API_KEY,
@@ -19,22 +20,22 @@ class Details extends Component {
       .then(resp => {
         // Do something with resp.data.animal
         let pet = resp.data.animal;
-        let photo;
+        let photos;
         if (pet.photos.length <= 0) {
-          photo = "image is not found";
+          photos = "image is not found";
         } else {
-          photo = pet.photos[0].medium;
+          photos = pet.photos;
         }
         this.setState({
           name: pet.name,
           animal: pet.type,
           location: `${pet.contact.address.city}, ${pet.contact.address.state}`,
           description: pet.description,
-          photo,
+          media: photos,
           breed: pet.breeds.primary,
           loading: false
         });
-        console.log(resp);
+        // console.log(resp);
       })
       .catch(() => {
         //
@@ -45,9 +46,10 @@ class Details extends Component {
     if (this.state.loading) {
       return <h1>Loading...</h1>;
     }
-    const { name, animal, breed, location, description } = this.state;
+    const { name, animal, breed, location, description, media } = this.state;
     return (
       <div className="details">
+        <Carousel media={media} />
         <div>
           <h1>{name}</h1>
           <h2>

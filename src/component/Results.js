@@ -16,7 +16,7 @@ class Results extends React.Component {
   }
   componentDidMount() {
     client.animal
-      .search({ location: "Seattle, WA" })
+      .search({ limit: 100, location: "Seattle, WA" })
       .then(resp => {
         // Do something with resp.data.animals
         let pets;
@@ -32,7 +32,7 @@ class Results extends React.Component {
         this.setState({
           pets
         });
-        console.log(resp);
+        // console.log(resp);
       })
       .catch(function(error) {
         // Handle the error
@@ -52,7 +52,7 @@ class Results extends React.Component {
               loaction={`${pet.contact.address.city}, ${
                 pet.contact.address.state
               }`}
-              photos={pet.photos}
+              media={pet.photos}
               id={pet.id}
             />
           );
