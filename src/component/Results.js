@@ -34,6 +34,7 @@ class Results extends React.Component {
         });
         // console.log(resp);
       })
+
       .catch(function(error) {
         // Handle the error
         console.log(`you got ${error}`);

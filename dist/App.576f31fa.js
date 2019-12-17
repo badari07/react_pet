@@ -36686,7 +36686,177 @@ function (_Component) {
 
 var _default = Details;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","@petfinder/petfinder-js":"../node_modules/@petfinder/petfinder-js/dist/petfinder.js","@reach/router":"../node_modules/@reach/router/es/index.js","./Carousel.js":"component/Carousel.js"}],"component/App.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","@petfinder/petfinder-js":"../node_modules/@petfinder/petfinder-js/dist/petfinder.js","@reach/router":"../node_modules/@reach/router/es/index.js","./Carousel.js":"component/Carousel.js"}],"component/SearchParams.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
+
+var _petfinderJs = require("@petfinder/petfinder-js");
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var client = new _petfinderJs.Client({
+  apiKey: "l17DIr0dMsFwEx8rrAgZAotWeeaXWK2JP4AHre6HU1bgGLa4rT",
+  secret: "inCZaTd1EQrm10APLT32zgQqteUMnvSgtyBMWRtA"
+});
+
+var SearchParams =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(SearchParams, _Component);
+
+  function SearchParams() {
+    var _getPrototypeOf2;
+
+    var _this;
+
+    var _temp;
+
+    _classCallCheck(this, SearchParams);
+
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _possibleConstructorReturn(_this, (_temp = _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(SearchParams)).call.apply(_getPrototypeOf2, [this].concat(args))), _this.state = {
+      location: "Seattle, WA",
+      animal: "",
+      breed: "",
+      Animals: [],
+      breeds: []
+    }, _this.handleLocationChange = function (event) {
+      _this.setState({
+        location: event.target.value
+      });
+    }, _this.handleAnimalChange = function (event) {
+      _this.setState({
+        animal: event.target.value,
+        breed: ""
+      }, _this.getBreeds);
+    }, _this.handleBreedChange = function (event) {
+      _this.setState({
+        breed: event.target.value
+      });
+    }, _temp));
+  }
+
+  _createClass(SearchParams, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      client.animalData.types().then(function (resp) {
+        // Do something with resp.data.types
+        var Animals = resp.data.types.map(function (type) {
+          return type.name;
+        });
+
+        _this2.setState({
+          Animals: Animals
+        }); //   console.log(resp);
+
+      });
+    }
+  }, {
+    key: "getBreeds",
+    value: function getBreeds() {
+      var _this3 = this;
+
+      if (this.state.animal) {
+        var animal = this.state.animal;
+        client.animalData.breeds(animal).then(function (resp) {
+          // Do something with resp.data.breeds
+          // console.log(resp);
+          if (Array.isArray(resp.data.breeds)) {
+            _this3.setState({
+              breeds: resp.data.breeds
+            });
+          } else {
+            _this3.setState({
+              breeds: []
+            });
+          }
+        });
+      } else {
+        this.setState({
+          breeds: []
+        });
+      }
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return _react.default.createElement("div", {
+        className: "search-params"
+      }, _react.default.createElement("label", {
+        htmlFor: "location"
+      }, "Loaction", _react.default.createElement("input", {
+        id: "location",
+        value: this.state.location,
+        placeholder: "location",
+        onChange: this.handleLocationChange
+      })), _react.default.createElement("label", {
+        htmlFor: "animal"
+      }, "Animal", _react.default.createElement("select", {
+        id: "animal",
+        value: this.state.animal,
+        onChange: this.handleAnimalChange,
+        onBlur: this.handleAnimalChange
+      }, _react.default.createElement("option", null), this.state.Animals.map(function (animal) {
+        return _react.default.createElement("option", {
+          key: animal,
+          value: animal
+        }, animal);
+      } //   console.log(animal)
+      ))), _react.default.createElement("label", {
+        htmlFor: "breed"
+      }, "Breed", _react.default.createElement("select", {
+        id: "breed",
+        value: this.state.breed,
+        onChange: this.handleBreedChange,
+        onBlur: this.handleBreedChange,
+        disabled: !this.state.breeds.length
+      }, _react.default.createElement("option", null), this.state.breeds.map(function (breed) {
+        return _react.default.createElement("option", {
+          key: breed.name,
+          value: breed.name
+        }, breed.name);
+      } //   console.log(breed.name)
+      ))), _react.default.createElement("button", null, "Submit"));
+    }
+  }]);
+
+  return SearchParams;
+}(_react.Component);
+
+var _default = SearchParams;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js","@petfinder/petfinder-js":"../node_modules/@petfinder/petfinder-js/dist/petfinder.js"}],"component/App.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
@@ -36698,6 +36868,8 @@ var _router = require("@reach/router");
 var _Results = _interopRequireDefault(require("./Results"));
 
 var _Details = _interopRequireDefault(require("./Details.js"));
+
+var _SearchParams = _interopRequireDefault(require("./SearchParams.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -36739,6 +36911,8 @@ function (_React$Component) {
         path: "/"
       }), _react.default.createElement(_Details.default, {
         path: "/details/:id"
+      }), _react.default.createElement(_SearchParams.default, {
+        path: "/search-params"
       })));
     }
   }]);
@@ -36747,7 +36921,7 @@ function (_React$Component) {
 }(_react.default.Component);
 
 (0, _reactDom.render)(_react.default.createElement(App, null), document.getElementById("root"));
-},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","@reach/router":"../node_modules/@reach/router/es/index.js","./Results":"component/Results.js","./Details.js":"component/Details.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","@reach/router":"../node_modules/@reach/router/es/index.js","./Results":"component/Results.js","./Details.js":"component/Details.js","./SearchParams.js":"component/SearchParams.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -36775,7 +36949,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59520" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49384" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
