@@ -1,6 +1,8 @@
 import React from "react";
 import { Client } from "@petfinder/petfinder-js";
 import Pet from "./Pet";
+import { Consumer } from "./SearchContext.js";
+import SearchBox from "./SearchBox.js";
 
 const client = new Client({
   apiKey: process.env.API_KEY,
@@ -14,9 +16,18 @@ class Results extends React.Component {
       pets: []
     };
   }
+
   componentDidMount() {
+    this.search();
+  }
+  search = () => {
     client.animal
-      .search({ limit: 100, location: "Seattle, WA" })
+      .search({
+        limit: 100,
+        location: this.props.searchParams.loaction,
+        animal: this.props.searchParams.animal,
+        breed: this.props.searchParams.breed
+      })
       .then(resp => {
         // Do something with resp.data.animals
         let pets;
@@ -39,10 +50,11 @@ class Results extends React.Component {
         // Handle the error
         console.log(`you got ${error}`);
       });
-  }
+  };
   render() {
     return (
       <div className="search">
+        <SearchBox search={this.search} />
         {this.state.pets.map(pet => {
           return (
             <Pet
@@ -63,4 +75,10 @@ class Results extends React.Component {
   }
 }
 
-export default Results;
+export default function ResultWithContext(props) {
+  return (
+    <Consumer>
+      {context => <Results {...props} searchParams={context} />}
+    </Consumer>
+  );
+}
