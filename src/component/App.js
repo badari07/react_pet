@@ -7,6 +7,8 @@ import { Provider } from "./SearchContext.js";
 import Results from "./Results";
 import SearchParams from "./SearchParams.js";
 import NavBar from "./NavBar.js";
+import { Provider as ReduxProvider } from "react-redux";
+import store from "../store/configStore.js";
 
 const client = new Client({
   apiKey: process.env.API_KEY,
@@ -87,13 +89,15 @@ class App extends React.Component {
     return (
       <div>
         <NavBar />
-        <Provider value={this.state}>
-          <Router>
-            <Results path="/" />
-            <LoadableDetails path="/details/:id" />
-            <SearchParams path="/search-params" />
-          </Router>
-        </Provider>
+        <ReduxProvider store={store}>
+          <Provider value={this.state}>
+            <Router>
+              <Results path="/" />
+              <LoadableDetails path="/details/:id" />
+              <SearchParams path="/search-params" />
+            </Router>
+          </Provider>
+        </ReduxProvider>
       </div>
     );
   }
