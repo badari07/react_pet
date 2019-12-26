@@ -1,12 +1,14 @@
 import { combineReducers } from "redux";
-import breedsReducer from "./breeds.js";
-import breedReducer from "./breed.js";
-import animalReducer from "./animal.js";
-import loactionReducer from "./location.js";
+import breeds from "./breeds.js";
+import breed from "./breed.js";
+import animal from "./animal.js";
+import location from "./location.js";
+import Animals from "./animals.js";
 
 export default combineReducers({
-  breedsReducer,
-  breedReducer,
-  animalReducer,
-  loactionReducer
+  breeds,
+  breed,
+  animal,
+  location,
+  Animals
 });

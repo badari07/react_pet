@@ -1,8 +1,9 @@
 import React from "react";
 import { Client } from "@petfinder/petfinder-js";
 import Pet from "./Pet";
-import { Consumer } from "./SearchContext.js";
 import SearchBox from "./SearchBox.js";
+import { connect } from "react-redux";
+import getAnimals from "../actionCreaters/getAnimals.js";
 
 const client = new Client({
   apiKey: process.env.API_KEY,
@@ -19,14 +20,15 @@ class Results extends React.Component {
 
   componentDidMount() {
     this.search();
+    this.props.dispatch(getAnimals());
   }
   search = () => {
     client.animal
       .search({
         limit: 100,
-        location: this.props.searchParams.loaction,
-        animal: this.props.searchParams.animal,
-        breed: this.props.searchParams.breed
+        location: this.props.loaction,
+        animal: this.props.animal,
+        breed: this.props.breed
       })
       .then(resp => {
         // Do something with resp.data.animals
@@ -75,10 +77,12 @@ class Results extends React.Component {
   }
 }
 
-export default function ResultWithContext(props) {
-  return (
-    <Consumer>
-      {context => <Results {...props} searchParams={context} />}
-    </Consumer>
-  );
-}
+// const mapStateTOProps = state => ({ location: state.location,breed:state.breed });
+
+const mapStateToProps = ({ location, breed, animal }) => ({
+  location,
+  breed,
+  animal
+});
+
+export default connect(mapStateToProps)(Results);
