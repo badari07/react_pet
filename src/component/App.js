@@ -15,8 +15,6 @@ const LoadableDetails = Loadable({
   }
 });
 
-console.log(store.getState());
-
 class App extends React.Component {
   render() {
     return (
