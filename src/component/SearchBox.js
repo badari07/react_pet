@@ -30,14 +30,11 @@ class SerachBox extends Component {
                   onBlur={context.handleAnimalChange}
                 >
                   <option />
-                  {context.Animals.map(
-                    animal => (
-                      <option key={animal} value={animal}>
-                        {animal}
-                      </option>
-                    )
-                    //   console.log(animal)
-                  )}
+                  {context.Animals.map(animal => (
+                    <option key={animal} value={animal}>
+                      {animal}
+                    </option>
+                  ))}
                 </select>
               </label>
               <label htmlFor="breed">
@@ -50,14 +47,11 @@ class SerachBox extends Component {
                   disabled={!context.breeds.length}
                 >
                   <option />
-                  {context.breeds.map(
-                    breed => (
-                      <option key={breed.name} value={breed.name}>
-                        {breed.name}
-                      </option>
-                    )
-                    //   console.log(breed.name)
-                  )}
+                  {context.breeds.map(breed => (
+                    <option key={breed.name} value={breed.name}>
+                      {breed.name}
+                    </option>
+                  ))}
                 </select>
               </label>
               <button>Submit</button>
