@@ -30,7 +30,7 @@ class Carousel extends Component {
         <div className="carousel">
           <img src={photos} alt="primary animal" />
           <div className="carousel-smaller">
-            <span style={{ color: "red" }}>Image Is Not Found</span>
+            <span style={{ color: "red" }}>Image Is Not Yet Available</span>
           </div>
         </div>
       );
