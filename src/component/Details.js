@@ -23,11 +23,6 @@ class Details extends Component {
     showModal: false
   };
 
-  toggleModal = () => {
-    this.setState({
-      showModal: !this.state.showModal
-    });
-  };
   componentDidMount() {
     let id = this.props.id;
     client.animal
@@ -48,7 +43,8 @@ class Details extends Component {
           description: pet.description,
           media: photos,
           breed: pet.breeds.primary,
-          loading: false
+          loading: false,
+          url: pet.url
         });
         // console.log(resp);
       })
@@ -57,6 +53,12 @@ class Details extends Component {
         navigate("/");
       });
   }
+  toggleModal = () => {
+    this.setState({
+      showModal: !this.state.showModal
+    });
+  };
+  adopt = () => navigate(this.state.url);
   render() {
     if (this.state.loading) {
       return <h1>Loading...</h1>;
@@ -82,7 +84,11 @@ class Details extends Component {
           <p>{description}</p>
           {showModal ? (
             <Modal>
-              <LoadableContent toggleModal={this.toggleModal} name={name} />
+              <LoadableContent
+                toggleModal={this.toggleModal}
+                adopt={this.adopt}
+                name={name}
+              />
             </Modal>
           ) : null}
         </div>
